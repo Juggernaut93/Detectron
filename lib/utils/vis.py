@@ -281,9 +281,12 @@ def vis_one_image(
     fig.add_axes(ax)
     ax.imshow(im)
 
-    # Display in largest to smallest order to reduce occlusion
-    areas = (boxes[:, 2] - boxes[:, 0]) * (boxes[:, 3] - boxes[:, 1])
-    sorted_inds = np.argsort(-areas)
+    if boxes is None:
+        sorted_inds = [] # avoid crash when 'boxes' is None
+    else:
+        # Display in largest to smallest order to reduce occlusion
+        areas = (boxes[:, 2] - boxes[:, 0]) * (boxes[:, 3] - boxes[:, 1])
+        sorted_inds = np.argsort(-areas)
 
     mask_color_id = 0
     for i in sorted_inds:
